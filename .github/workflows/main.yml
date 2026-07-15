@@ -3,7 +3,7 @@ name: Deploy Hexo
 on:
   push:
     branches:
-      - main  # 根据你的分支调整
+      - master  # 根据你的分支调整
 
 jobs:
   build-and-deploy:
