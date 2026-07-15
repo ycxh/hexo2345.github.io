@@ -1,0 +1,37 @@
+name: Deploy Hexo Blog
+
+on:
+  push:
+    branches:
+      - master  # 你的源码分支
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: |
+          npm install
+
+      - name: Generate static files
+        run: |
+          cd blog
+          npx hexo generate
+
+      - name: Deploy to target repository
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_token: ${{ secrets.GITHUB_TOKEN }}
+          external_repository: ycxh/hexo123456.github.io
+          publish_branch: master
+          publish_dir: ./blog/public   # 注意：生成的文件在 blog/public 中
